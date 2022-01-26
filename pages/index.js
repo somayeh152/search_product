@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Products from "../components/Products/Products";
 import Filter from "../components/Filter/Filter";
 import styles from "../styles/Home.module.css";
 import filter from "../helpers/filters.js";
 import pagination from "../helpers/pagination.js";
-import InfiniteScroll from "react-infinite-scroll-component";
+import queryString from "../helpers/queryString";
 
 export async function getServerSideProps() {
   // Fetch data from external API
@@ -20,6 +20,13 @@ export default function Home(props) {
   const router = useRouter();
   const baseProducts = props.data.result.products;
   const [productItems, setProductItems] = useState(baseProducts);
+  const [page, setPage] = useState(1);
+  const perPage = 10;
+
+  const shownItem = useMemo(
+    () => pagination(productItems, { page, perPage }),
+    [page, productItems]
+  );
 
   const [filterState, setFilterState] = useState({
     sort: "bestsell",
@@ -28,18 +35,37 @@ export default function Home(props) {
 
   useEffect(() => {
     filterHandler(router.query);
+
     const onRouteChange = (url) => {
-      console.log(window.location);
-      // filterHandler(router.query);
+      const href = window.location.href.split("/");
+      const urlString = href[href.length - 1].replace("?", "");
+      filterHandler(queryString(urlString));
+      setFilterState({
+        sort: "bestsell",
+        category: "all",
+        ...queryString(urlString),
+      });
+      console.log({
+        sort: "bestsell",
+        category: "all",
+        ...queryString(urlString),
+      });
+    };
+
+    const scrollToEnd = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        setPage(page + 1);
+      }
     };
 
     if (typeof window !== "undefined") {
       window.addEventListener("popstate", onRouteChange, false);
+      window.addEventListener("scroll", scrollToEnd, { passive: true });
     }
-
     return () => {
       if (typeof window !== "undefined") {
         window.removeEventListener("popstate", onRouteChange, false);
+        window.removeEventListener("scroll", scrollToEnd);
       }
     };
   }, []);
@@ -61,14 +87,7 @@ export default function Home(props) {
         <h1>استیکر فیلم-سریال-انیمیشن</h1>
       </div>
       <Filter onChange={filterHandler} value={filterState} />
-      {/* <InfiniteScroll
-        dataLength={this.state.items.length}
-        next={pagination()}
-        hasMore={true}
-        loader={<h4>Loading...</h4>}
-      > */}
-      <Products products={productItems} />
-      {/* </InfiniteScroll> */}
+      <Products products={shownItem} />
     </div>
   );
 }

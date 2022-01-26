@@ -2,7 +2,7 @@
   outline: none;
   width: 100%;
   background: #fff;
-  border: 1px solid var(--color-border, #bbc3ce);
+  border: 1px solid #bbc3ce;
   height: 50px;
   padding: 0 2px;
   position: relative;

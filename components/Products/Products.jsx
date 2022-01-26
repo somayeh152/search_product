@@ -5,15 +5,17 @@ const Products = (props) => {
   return (
     <div>
       <div className={style.wrapper}>
-        {props.products.map((item) => (
-          <Product
-            key={item.id}
-            image={item.image}
-            title={item.name}
-            price={item.price}
-            // category={item.category}
-          />
-        ))}
+        <div className={style.row}>
+          {props.products.map((item) => (
+            <Product
+              key={item.id}
+              image={item.image}
+              title={item.name}
+              price={item.price}
+              // category={item.category}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
