@@ -108,6 +108,36 @@
   margin-left: 0.5rem;
 }
 
+.pageHeadLine {
+  margin: 60px 0 40px 0;
+  text-align: center;
+}
+.pageHeadLine h1 {
+  font-weight: bold;
+  font-size: 20px;
+  display: inline-block;
+}
+
+.pageHeadLine h1:before {
+  content: "";
+  background: var(--color-complement, #6b7c93);
+  height: 1px;
+  width: 80px;
+  float: left;
+  margin-top: 17px;
+  margin-right: 12px;
+}
+
+.pageHeadLine h1:after {
+  content: "";
+  background: #6b7c93;
+  height: 1px;
+  width: 80px;
+  float: right;
+  margin-top: 17px;
+  margin-left: 12px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

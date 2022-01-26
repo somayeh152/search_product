@@ -1,9 +1,18 @@
+@font-face {
+  font-family: "IranYekanFnum";
+  src: url("../public/fonts/MobileFonts_FaNum/IRANYekanRegularMobile\(FaNum\).ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "IranYekanFnum", sans-serif;
+  background-color: #f1f3f5;
+  direction: rtl;
 }
 
 a {
