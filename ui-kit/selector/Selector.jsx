@@ -3,7 +3,7 @@ import style from "./Selector.module.css";
 const Selector = ({ value, onChange, options = [] }) => {
   return (
     <select
-      className={style.selectedOption}
+      className={style.selected_option}
       name="category"
       id="category"
       value={value}
