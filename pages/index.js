@@ -28,11 +28,6 @@ export default function Home(props) {
     [page, productItems]
   );
 
-  const [filterState, setFilterState] = useState({
-    sort: "bestsell",
-    category: "all",
-  });
-
   useEffect(() => {
     filterHandler(router.query);
 
@@ -41,11 +36,6 @@ export default function Home(props) {
       const urlString = href[href.length - 1].replace("?", "");
       filterHandler(queryString(urlString));
       setFilterState({
-        sort: "bestsell",
-        category: "all",
-        ...queryString(urlString),
-      });
-      console.log({
         sort: "bestsell",
         category: "all",
         ...queryString(urlString),
@@ -70,10 +60,15 @@ export default function Home(props) {
     };
   }, []);
 
-  const filterHandler = (val) => {
-    setFilterState(val);
-    setProductItems(filter(baseProducts, val));
-    router.push({ query: val }, undefined, { shallow: true });
+  const [filterState, setFilterState] = useState({
+    sort: "bestsell",
+    category: "all",
+  });
+
+  const filterHandler = (filterType) => {
+    setFilterState(filterType);
+    setProductItems(filter(baseProducts, filterType));
+    router.push({ query: filterType }, undefined, { shallow: true });
   };
 
   return (
